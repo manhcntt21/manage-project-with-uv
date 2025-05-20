@@ -1,0 +1,6 @@
+[submodule "alpha"]
+	path = alpha
+	url = ./alpha
+[submodule "beta"]
+	path = beta
+	url = ./beta
