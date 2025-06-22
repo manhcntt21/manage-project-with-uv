@@ -104,3 +104,12 @@ Những sự khác biệt chính:
 | Tính năng | `poetry.lock` | `uv.lock`                                                                                |
 |----------|---------------|------------------------------------------------------------------------------------------|
 | xxx      | bổ sung sau   | Điểm mạnh của uv.lock là tốc độ giải quyết và tạo/cập nhật file khóa cực kỳ nhanh.<br/>  |
+
+---
+## 4. Câu lệnh hữu ích
+
+Để xem tất cả các gói đã cài đặt và version của chung
+
+```commandline
+uv pip freeze
+```

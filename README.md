@@ -107,3 +107,11 @@ Key differences between `uv.lock` and `poetry.lock`:
 | Feature | `poetry.lock` | `uv.lock` |
 |---------|---------------|----------|
 | xxx     | yyy           |The strength of uv.lock is the extremely fast speed of processing and creating/updating lock files.          |
+
+---
+## 4. Useful commands
+
+To view the list of packages installed, and it's version in the current environment, you can use:
+```commandline
+uv pip freeze
+```
