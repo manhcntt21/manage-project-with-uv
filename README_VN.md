@@ -74,3 +74,33 @@ hoặc khi đang activate môi trường thì việc cài đặt được ưu ti
 _chú ý_:
 - nó sẽ không thực hiện thay đổi `pyproject.toml` hay `uv.lock`, vì vậy nếu bạn muốn quản lý các thư viện trong project thì cần thực hiện các lệnh `uv add <package_name>`,...  để cập nhật các file này.
 - vì nó không tự nhớ các version của dependencies, nên cần phải cung cấp chính xác version của package, nếu không sẽ có thể xảy ra lỗi khi chạy code do các version không tương thích.
+
+---
+## 3. Hiểu về uv.lock
+
+Do `poetry` và `uv` đều sử dụng định dạng `pyproject.toml`, tuy nhiên chúng tạo ra các file lock tên khác nhau
+- `poetry.lock` cho `poetry`
+- `uv.lock` cho `uv`
+
+### 3.1 uv.lock
+
+nếu project không có `uv.lock` nó được sẽ được tạo, một số lệnh sẽ tạo ra file này: `uv add`, `uv pip install`, `uv pip compile`...
+
+khi tồn tại a lockfile, nó được dùng để resolution dependencies, nghĩa là khi bạn cài đặt một package mới, uv sẽ kiểm tra các dependencies đã được khóa trong `uv.lock` để đảm bảo rằng các phiên bản tương thích được sử dụng.
+
+nếu project không có gì thay đổi thì lockfile sẽ không thay đổi, trừ khi sử dụng `--upgrade`
+- thực hiện search các version của package: uv không hỗ trợ, dùng `pip index versions <package_name>`
+- thực hiện sửa file `pyproject.toml` để cập nhập package, sau đó chạy `uv lock --upgrade` để cập nhật `uv.lock`
+
+
+### 3.2 poetry.lock
+
+........
+
+### 3.3 So sánh `poetry.lock` và `uv.lock`
+
+Những sự khác biệt chính:
+
+| Tính năng | `poetry.lock` | `uv.lock`                                                                                |
+|----------|---------------|------------------------------------------------------------------------------------------|
+| xxx      | bổ sung sau   | Điểm mạnh của uv.lock là tốc độ giải quyết và tạo/cập nhật file khóa cực kỳ nhanh.<br/>  |

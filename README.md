@@ -78,3 +78,32 @@ Alternatively, when the environment is activated, the installation is prioritize
 _chú ý_:
    - it does not change the `pyproject.toml` file or the `uv.lock` file. You need to manually add the package to the `pyproject.toml` file if you want it to be recorded or `uv add`, whenever `pyproject.toml` is updated, you need to run `uv lock --upgrade` to update the `uv.lock` file. (sync the lock file with the `venv` environment).
    - it does not remember the package version that you installed with `uv pip install <package_name> --system`, so if you want to use the same version in another environment, you need to specify it in the `pyproject.toml` file or specify exactly the version when installing `uv add <package_name>==<version>`.
+
+---
+## 3. Understanding uv.lock
+
+Due to both `poetry` and `uv` using the `pyproject.toml` format, they create lock files with different names:
+- `poetry.lock` for `poetry`
+- `uv.lock` for `uv`
+
+### 3.1 uv.lock
+
+If the project does not have a `uv.lock`, it will be created. Some commands will generate this file: `uv add`, `uv pip install`, `uv pip compile`, etc.
+
+When lockfile exists, it is used for dependency resolution. This means that when you install a new package, uv checks the dependencies locked in `uv.lock` to ensure compatible versions are used.
+
+If the project remains unchanged, the lockfile will not change unless you use `--upgrade`. 
+- To search for package versions, uv does not support this. Use `pip index versions <package_name>`.
+- To update the `pyproject.toml` file, you need to manually edit it to add the package, then run `uv lock --upgrade` to update the `uv.lock` or `uv add <package_name>` to add the package and update the lock file.
+
+### 3.2 poetry.lock
+
+TBD
+
+### 3.3 Differences between uv.lock and poetry.lock
+
+Key differences between `uv.lock` and `poetry.lock`:
+
+| Feature | `poetry.lock` | `uv.lock` |
+|---------|---------------|----------|
+| xxx     | yyy           |The strength of uv.lock is the extremely fast speed of processing and creating/updating lock files.          |
