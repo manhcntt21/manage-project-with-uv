@@ -115,3 +115,17 @@ To view the list of packages installed, and it's version in the current environm
 ```commandline
 uv pip freeze
 ```
+
+To install specific versions of python into the virtual environment `.venv`, you can use:
+```commandline
+uv python install <python_version>
+```
+- need to activate python version first. `uv venv --python <python_version>`, it creates a new `.venv` with the specified Python version.
+- then, sync the new `.venv` with the `uv.lock` file using `uv lock --upgrade`, `uv sync`
+- enable to activate `.venv` to check
+
+
+Remove dependencies from the current environment from `pyproject.toml`:
+```commandline
+uv remove package
+```

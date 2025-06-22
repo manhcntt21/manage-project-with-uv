@@ -113,3 +113,18 @@ Những sự khác biệt chính:
 ```commandline
 uv pip freeze
 ```
+
+Use case sử dụng `uv python install <python_version>` để cài đặt một phiên bản Python cụ thể vào môi trường ảo `.venv`:
+
+```commandline
+uv python install <python_version>
+```
+- sau đó cần kích hoạt: `uv env --python <python_version>`, nó sẽ tạo ra `.venv` mới tinh
+- đồng bộ pyproject.toml và uv.lock với môi trường vừa được tạo: uv lock --upgrade, uv sync
+- có thể active vào môi trường của `.venv` để thử nghiệm
+
+Muốn remove dependency from `pyproject.toml`:
+
+```commandline
+uv remove package
+```
