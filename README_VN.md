@@ -30,3 +30,47 @@ khi tiếp nhận một project mới cần làm những việc sau:
    - phải chạy lệnh uv add từng package
    - chưa tìm ra cách khác
    - uv pip install -r pyproject.toml (cài đặt trực tiếp vào môi trường conda)
+
+--------------
+## 2. Cài đặt trực tiếp vào môi trường conda
+Nếu không quan tâm đến version của code, mà muốn cài đặt trực tiếp vào môi trường conda thì thực hiện như sau (mục tiêu là cần dùng uv để cài đặt)
+
+1. tạo môi trường ảo bằng conda
+2. tạo project [có những cách sau](https://docs.astral.sh/uv/guides/projects/)
+   - cách 1: uv init <project_name>, cd <project_name>
+   - cách 2: mkdir <project_name>, cd <project_name>, uv init
+   - project structure sẽ như sau:
+```commandline
+.
+├── .venv
+│   ├── bin
+│   ├── lib
+│   └── pyvenv.cfg
+├── .python-version
+├── README.md
+├── main.py
+├── pyproject.toml
+└── uv.lock
+```
+3. thực hiện cài đặt trực tiếp vào conda: việc này không được khuyến khích vì nó sẽ gây ra các vấn đề về conflict giữa các thư viện trong conda và các thư viện trong project, tuy nhiên nếu ý định của bạn là như vậy thì dưới đây là hướng dẫn
+   - uv pip install <package_name>
+   - uv pip install -r requirements.txt
+   - uv pip install . (cài đặt trực tiếp vào môi trường conda, không tạo ra .venv)
+
+```commandline
+uv pip install [OPTIONS] <PACKAGE|--requirements <REQUIREMENTS>|--editable <EDITABLE>|--group <GROUP>>
+```
+   - uv pip install . --system
+   - uv pip install -r pyproject.toml --system
+   - uv pip install <package_name> --system
+
+`--system` nghĩa là:
+- Install packages into the system Python environment.
+- By default, uv installs into the virtual environment in the current working directory or any parent directory
+- option instructs uv to instead use the first Python found in the system PATH
+
+hoặc khi đang activate môi trường thì việc cài đặt được ưu tiên vào môi trường ảo đó, cho dù là của `conda` hay `venv`, nghĩa là trong trường hợp này không cần `--system` nữa.
+
+_chú ý_:
+- nó sẽ không thực hiện thay đổi `pyproject.toml` hay `uv.lock`, vì vậy nếu bạn muốn quản lý các thư viện trong project thì cần thực hiện các lệnh `uv add <package_name>`,...  để cập nhật các file này.
+- vì nó không tự nhớ các version của dependencies, nên cần phải cung cấp chính xác version của package, nếu không sẽ có thể xảy ra lỗi khi chạy code do các version không tương thích.

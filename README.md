@@ -33,3 +33,48 @@ When starting with a new project, you need to do the following:
 4. Synchronize the virtual environment (.venv) with uv.lock. You need to perform one of the following two methods.
    - You have to run uv add <package_name> for each package. (**No other method has been found yet.**)
    - uv pip install -r pyproject.toml (installs directly into the Conda environment).
+
+___
+## 2. Installing directly into the Conda environment
+If you don't care about the version of the code and want to install directly into the Conda environment, follow these steps (the goal is to use uv for installation):
+
+1. Create a virtual environment using Conda.
+2. Create a project using one of [the following methods]((https://docs.astral.sh/uv/guides/projects/)):
+   - Method 1: uv init <project_name>, cd <project_name>.
+   - Method 2: mkdir <project_name>, cd <project_name>, uv init.
+   - The project structure will look like this:
+
+```commandline
+.
+├── .venv
+│   ├── bin
+│   ├── lib
+│   └── pyvenv.cfg
+├── .python-version
+├── README.md
+├── main.py
+├── pyproject.toml
+└── uv.lock
+```
+3. Install directly into Conda. This is not recommended as it can cause conflicts between libraries in Conda and those in the project, but if that's your intention, here's how:
+   - uv pip install <package_name>
+   - uv pip install -r requirements.txt
+   - uv pip install . (installs directly into the Conda environment, without creating a .venv)
+
+```commandline
+uv pip install [OPTIONS] <PACKAGE|--requirements <REQUIREMENTS>|--editable <EDITABLE>|--group <GROUP>>
+```
+   - uv pip install . --system
+   - uv pip install -r pyproject.toml --system
+   - uv pip install <package_name> --system
+
+`--system` nghĩa là:
+   - Install packages into the system Python environment.
+   - By default, uv installs into the virtual environment in the current working directory or any parent directory
+   - option instructs uv to instead use the first Python found in the system PATH
+
+Alternatively, when the environment is activated, the installation is prioritized into that virtual environment, whether it's `Conda` or `.venv`, meaning in this case, you don't need `--system`.
+
+_chú ý_:
+   - it does not change the `pyproject.toml` file or the `uv.lock` file. You need to manually add the package to the `pyproject.toml` file if you want it to be recorded or `uv add`, whenever `pyproject.toml` is updated, you need to run `uv lock --upgrade` to update the `uv.lock` file. (sync the lock file with the `venv` environment).
+   - it does not remember the package version that you installed with `uv pip install <package_name> --system`, so if you want to use the same version in another environment, you need to specify it in the `pyproject.toml` file or specify exactly the version when installing `uv add <package_name>==<version>`.
