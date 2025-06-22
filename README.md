@@ -2,6 +2,8 @@
 
 Illustrating how to use **uv** for installing and managing libraries
 
+---
+## 1. Using uv to install into .venv
 It's common for a project to have multiple versions, and for different versions of a library to exist across these project versions. (e.g: alpha and beta are versions of projects here)
 
 In such cases, uv helps manage these library versions, and when combined with Conda, it offers a more efficient workflow.
@@ -10,15 +12,16 @@ In such cases, uv helps manage these library versions, and when combined with Co
 2. Install libraries into that virtual environment using uv.
 3. Use uv to initialize new projects: uv init <project_name>.
 4. Within each project version: install libraries using uv add <package_name>. This will create a .venv directory within the project folder. These packages are independent of the Conda environment created initially.
-5. Later, if you want to synchronize the project's libraries with the Conda environment, execute the uv sync command. At this point, uv will automatically install the libraries in the Conda environment. You can also use the following method: uv pip install . --system. Another way is to use a requirements.txt file, which will be discussed later.
+5. Later, if you want to synchronize the project's libraries with the `venv` environment, execute the uv sync command. At this point, if you want uv to install the libraries in the Conda environment. You can also use the following method: `uv pip install . --system`. Another way is to use a requirements.txt file, which will be discussed later.
    - . represents the current project directory.
    - uv pip install . will read the pyproject.toml file, resolve dependencies (referencing uv.lock for locked versions), and then install the project along with those dependencies.
    - --system directs the installation to the active Conda environment (e.g., uv-example).
 
 _Note_: You need to configure the cache directory to reduce storage usage on the main hard drive.
 - UV_CACHE_DIR
-- On Windows, configure this in Environment Variables -> System variables.
-- On Linux, configure this in ~/.bashrc by adding: export UV_CACHE_DIR=/path/to/cache.
+  - On Windows, configure this in Environment Variables -> System variables.
+  - On Linux, configure this in ~/.bashrc by adding: export UV_CACHE_DIR=/path/to/cache.
+- These enviroment variables can be set similarly, but you need to understand their effects. For more information, refer to [here](https://docs.astral.sh/uv/reference/environment/).
 
 ---
 
